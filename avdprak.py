@@ -1,5 +1,5 @@
 import streamlit as st
-import pandas as pd
+import pandas as pdm
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -43,16 +43,12 @@ def main(model, input_values):
     input_df = pd.DataFrame(
         columns=df_undersampling.columns, data=[input_values])
 
-    # Replace 'jam bangun' with one-hot encoded columns
-    input_df = pd.concat([input_df, pd.get_dummies(
-        input_df['jam bangun'], prefix='jam_bangun')], axis=1)
-    input_df.drop('jam bangun', axis=1, inplace=True)
-
     # Remove label column (if exists)
     input_df.drop('label', axis=1, inplace=True)
 
     # Add a placeholder for label (will be ignored in prediction)
     input_df['label'] = 0
+    st.write(input_df)
 
     # Use the same column order as in training data
     input_df = input_df[df_undersampling.columns]
